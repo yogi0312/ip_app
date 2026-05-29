@@ -1,0 +1,40 @@
+name: ip_apps
+services:
+  fast_api:
+    build:
+      context: ./fast_api
+    image: fast_api:latest
+    container_name: fast_api_container
+    ports:
+      - "5000:5000"
+    environment:
+      TEST: example
+      TEST2: example2
+    networks:
+      - ip_app_custom_bridge_network
+    volumes:
+      - fast_api_data:/app
+  flask_api:
+    build:
+      context: ./flask
+    image: flask:latest
+    container_name: flask_api_container
+    ports:
+      - "5001:5000"
+  nodejs_api:
+    build:
+      context: ./nodejs
+    image: nodejs:latest
+    container_name: nodejs_api_container
+    ports:
+      - "5002:5000"
+
+networks:
+  ip_app_custom_bridge_network:
+    name: ip_app_custom_bridge_network
+    driver: bridge
+
+volumes:
+  fast_api_data:
+    name: ip_app_fast_api_data
+    driver: local
