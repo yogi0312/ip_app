@@ -10,7 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-USER appuser
+RUN useradd --create-home --shell /bin/bash fastuser \
+    && chown -R fastuser:fastuser /app
+USER fastuser
 
 EXPOSE 5000
 
